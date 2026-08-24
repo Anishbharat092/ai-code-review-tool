@@ -6,6 +6,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import * as crypto from 'crypto';
 
 import { UsersService } from '../users/users.service';
 import { SignupDto } from './dto/signup.dto';
@@ -65,8 +66,12 @@ export class AuthService {
       throw new UnauthorizedException('Invalid refresh token');
     }
 
+    const tokenDigest = crypto
+      .createHash('sha256')
+      .update(refreshToken)
+      .digest('hex');
     const refreshTokenMatches = await bcrypt.compare(
-      refreshToken,
+      tokenDigest,
       user.refreshTokenHash,
     );
 
@@ -103,7 +108,11 @@ export class AuthService {
       },
     );
 
-    const refreshTokenHash = await bcrypt.hash(refreshToken, 12);
+    const tokenDigest = crypto
+      .createHash('sha256')
+      .update(refreshToken)
+      .digest('hex');
+    const refreshTokenHash = await bcrypt.hash(tokenDigest, 12);
 
     await this.usersService.updateRefreshTokenHash(userId, refreshTokenHash);
 

@@ -132,12 +132,12 @@ docker run -d --name reviewer-redis -p 6379:6379 redis:alpine
 
 ---
 
-## 🔒 Security Standards & Compliance
+## 🔒 Security Practices
 
-- **CWE / SANS Top 25:** Proactively detects insecure token decoding, unvalidated signature guards, injection vectors, and missing auth boundaries.
-- **NIST SP 800-38D:** Authenticated token encryption with AES-256-GCM using unique per-token initialization vectors.
-- **TTL-Gated Redis Invalidation:** Cache keys automatically expire and invalidate when reviews complete or fail.
-- **Zero Code Retention:** Transient diff chunks are evaluated in-memory and never persisted to external AI training pipelines.
+- **Local secret pre-scanning:** Diffs are scanned locally for exposed API keys, tokens, and credentials before any data is sent to the AI API — reduces unnecessary external calls and catches leaks early.
+- **Encrypted token storage:** GitHub OAuth access tokens are encrypted at rest using AES-256-GCM with a unique IV per token, and are never logged or returned in API responses.
+- **Refresh token rotation:** Refresh tokens are hashed before storage and rotated on every use, allowing session revocation and reuse detection.
+- **Redis TTL caching:** Cached review data expires automatically once a review completes or fails.
 
 ---
 
