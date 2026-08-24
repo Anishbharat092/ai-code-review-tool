@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/stores/auth-store";
 import { Scene3D } from "@/components/landing/scene-3d";
 import { Button } from "@/components/ui/button";
@@ -10,10 +11,22 @@ import { ReviewList } from "@/components/reviews/review-list";
 import { LogOut, LayoutDashboard, Sparkles, GitPullRequest } from "lucide-react";
 import Link from "next/link";
 
-export default function DashboardPage() {
+function DashboardContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const user = useAuthStore((state) => state.user);
+  const fetchUser = useAuthStore((state) => state.fetchUser);
   const logout = useAuthStore((state) => state.logout);
   const scrollProgressRef = useRef<number>(0);
+
+  useEffect(() => {
+    const token = searchParams.get("token");
+    if (token) {
+      localStorage.setItem("accessToken", token);
+      fetchUser?.();
+      router.replace("/dashboard");
+    }
+  }, [searchParams, fetchUser, router]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,10 +43,8 @@ export default function DashboardPage() {
 
   return (
     <div className="relative min-h-screen w-full bg-[#030712] text-white selection:bg-indigo-500 selection:text-white font-sans overflow-x-hidden">
-      {/* Interactive 3D Particle Canvas from Landing Page */}
       <Scene3D scrollY={scrollProgressRef} />
 
-      {/* Top Navbar */}
       <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-black/60 border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 sm:px-8 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
@@ -59,9 +70,7 @@ export default function DashboardPage() {
         </div>
       </header>
 
-      {/* Foreground Content */}
       <main className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 pt-28 pb-20 space-y-8">
-        {/* Welcome Section */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-white/10 pb-6">
           <div className="space-y-1">
             <div className="flex items-center gap-2.5">
@@ -76,9 +85,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Input & Integration Cards */}
         <div className="grid gap-6 md:grid-cols-2">
-          {/* Submit New PR Card */}
           <div className="rounded-3xl border border-white/15 bg-zinc-950/80 p-6 sm:p-8 shadow-2xl backdrop-blur-2xl space-y-5">
             <div>
               <h2 className="text-lg font-semibold text-white flex items-center gap-2">
@@ -92,7 +99,6 @@ export default function DashboardPage() {
             <PrSubmitForm />
           </div>
 
-          {/* GitHub Integration Card */}
           <div className="rounded-3xl border border-white/15 bg-zinc-950/80 p-6 sm:p-8 shadow-2xl backdrop-blur-2xl space-y-5">
             <div>
               <h2 className="text-lg font-semibold text-white flex items-center gap-2">
@@ -107,7 +113,6 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Recent Reviews Section */}
         <div className="rounded-3xl border border-white/15 bg-zinc-950/80 p-6 sm:p-8 shadow-2xl backdrop-blur-2xl space-y-6">
           <div>
             <h2 className="text-xl font-bold text-white tracking-tight">
@@ -121,5 +126,19 @@ export default function DashboardPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#030712] flex items-center justify-center text-zinc-400 font-mono text-sm">
+          Loading dashboard...
+        </div>
+      }
+    >
+      <DashboardContent />
+    </Suspense>
   );
 }
