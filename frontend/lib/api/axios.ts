@@ -32,10 +32,13 @@ const refreshAccessToken = async (): Promise<string | null> => {
 };
 
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  const accessToken = useAuthStore.getState().accessToken;
+  const storeToken = useAuthStore.getState().accessToken;
+  const localToken =
+    typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
+  const token = storeToken || localToken;
 
-  if (accessToken) {
-    config.headers.Authorization = `Bearer ${accessToken}`;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
 
   return config;

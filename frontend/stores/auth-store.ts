@@ -30,6 +30,11 @@ export const useAuthStore = create<AuthState>()(
       isLoading: false,
 
       setAccessToken: (accessToken) => {
+        if (accessToken) {
+          localStorage.setItem("accessToken", accessToken);
+        } else {
+          localStorage.removeItem("accessToken");
+        }
         set({
           accessToken,
           isAuthenticated: Boolean(accessToken),
@@ -52,6 +57,9 @@ export const useAuthStore = create<AuthState>()(
 
         try {
           const { accessToken } = await authService.login(payload);
+          if (accessToken) {
+            localStorage.setItem("accessToken", accessToken);
+          }
 
           set({
             accessToken,
@@ -71,6 +79,9 @@ export const useAuthStore = create<AuthState>()(
 
         try {
           const { accessToken } = await authService.signup(payload);
+          if (accessToken) {
+            localStorage.setItem("accessToken", accessToken);
+          }
 
           set({
             accessToken,
@@ -91,6 +102,7 @@ export const useAuthStore = create<AuthState>()(
         try {
           await authService.logout();
         } finally {
+          localStorage.removeItem("accessToken");
           set({
             user: null,
             accessToken: null,
@@ -103,6 +115,9 @@ export const useAuthStore = create<AuthState>()(
       refreshSession: async () => {
         try {
           const { accessToken } = await authService.refresh();
+          if (accessToken) {
+            localStorage.setItem("accessToken", accessToken);
+          }
 
           set({
             accessToken,
@@ -112,6 +127,7 @@ export const useAuthStore = create<AuthState>()(
           await get().fetchUser();
           return true;
         } catch {
+          localStorage.removeItem("accessToken");
           set({
             user: null,
             accessToken: null,
@@ -123,10 +139,22 @@ export const useAuthStore = create<AuthState>()(
       },
 
       checkAuth: async () => {
-        set({ isLoading: true });
+        const storedToken =
+          typeof window !== "undefined"
+            ? localStorage.getItem("accessToken")
+            : null;
+        if (storedToken) {
+          set({ accessToken: storedToken, isAuthenticated: true });
+          await get().fetchUser();
+          return true;
+        }
 
+        set({ isLoading: true });
         try {
           const { accessToken } = await authService.refresh();
+          if (accessToken) {
+            localStorage.setItem("accessToken", accessToken);
+          }
 
           set({
             accessToken,
@@ -137,6 +165,7 @@ export const useAuthStore = create<AuthState>()(
           await get().fetchUser();
           return true;
         } catch {
+          localStorage.removeItem("accessToken");
           set({
             user: null,
             accessToken: null,
@@ -152,6 +181,7 @@ export const useAuthStore = create<AuthState>()(
       name: "auth-storage",
       partialize: (state) => ({
         user: state.user,
+        accessToken: state.accessToken,
         isAuthenticated: state.isAuthenticated,
       }),
     },
