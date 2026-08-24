@@ -49,13 +49,17 @@ export default function SignupPage() {
 
     if (!clientId || !redirectUri) {
       setIsGitHubLoading(false);
-      setServerError("GitHub OAuth configuration is missing in client environment.");
+      setServerError("GitHub OAuth is not configured for this environment.");
       return;
     }
 
-    window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
-      redirectUri
-    )}&scope=read:user,user:email,repo&state=login_flow`;
+    const authUrl = new URL("https://github.com/login/oauth/authorize");
+    authUrl.searchParams.set("client_id", clientId);
+    authUrl.searchParams.set("redirect_uri", redirectUri);
+    authUrl.searchParams.set("scope", "read:user,user:email,repo");
+    authUrl.searchParams.set("state", "login_flow");
+
+    window.location.href = authUrl.toString();
   };
 
   return (
