@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Next.js build output
+.next/
+*/.next/
+out/
+
+# NestJS build output
+dist/
+*/dist/
+
+# Environment files
+.env
+.env*.local
+*.env
+
+# OS & Cache files
+.DS_Store
+*.log
+.cache/
+.turbo/
+*.tsbuildinfodump.rdb
+backend/dump.rdb
