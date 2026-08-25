@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/stores/auth-store";
 
 interface ProtectedRouteProps {
@@ -10,18 +10,27 @@ interface ProtectedRouteProps {
 
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const isLoading = useAuthStore((state) => state.isLoading);
   const checkAuth = useAuthStore((state) => state.checkAuth);
+  const fetchUser = useAuthStore((state) => state.fetchUser);
   const [isMounting, setIsMounting] = useState(true);
 
   useEffect(() => {
     const initializeAuth = async () => {
-      await checkAuth();
+      const token = searchParams.get("token");
+      if (token) {
+        localStorage.setItem("accessToken", token);
+        useAuthStore.setState({ accessToken: token, isAuthenticated: true });
+        await fetchUser?.();
+      } else {
+        await checkAuth();
+      }
       setIsMounting(false);
     };
     initializeAuth();
-  }, [checkAuth]);
+  }, [searchParams, checkAuth, fetchUser]);
 
   useEffect(() => {
     if (!isMounting && !isLoading && !isAuthenticated) {
