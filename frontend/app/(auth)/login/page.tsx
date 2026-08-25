@@ -80,7 +80,7 @@ function LoginFormContent() {
     <div className="relative min-h-screen w-full flex flex-col lg:flex-row bg-[#030712] text-white selection:bg-indigo-500 selection:text-white font-sans overflow-hidden">
       <Scene3D scrollY={scrollProgressRef} />
 
-      <div className="relative z-10 hidden lg:flex flex-1 flex-col justify-between p-12 lg:p-16 border-r border-white/10 backdrop-blur-[2px]">
+     <div className="relative z-10 hidden lg:flex flex-1 flex-col justify-between p-12 lg:p-16 border-r border-white/10 backdrop-blur-[2px]">
         <Link href="/" className="flex items-center gap-3 w-fit">
           <div className="h-3.5 w-3.5 rounded-full bg-indigo-500 shadow-[0_0_12px_#6366f1] animate-pulse" />
           <span className="font-bold tracking-tight text-lg text-zinc-100">
@@ -95,7 +95,7 @@ function LoginFormContent() {
           </div>
 
           <h2 className="text-4xl font-extrabold tracking-tight leading-tight bg-gradient-to-b from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
-            Continuous AST evaluation for every pull request.
+            Automated diff analysis for every pull request.
           </h2>
 
           <div className="space-y-3 pt-2 text-sm text-zinc-300">
@@ -105,7 +105,7 @@ function LoginFormContent() {
             </div>
             <div className="flex items-center gap-2.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-              <span>OWASP Top 10 security scanning</span>
+              <span>Security & logic defect detection</span>
             </div>
             <div className="flex items-center gap-2.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />

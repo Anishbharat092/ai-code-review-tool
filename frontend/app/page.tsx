@@ -144,17 +144,16 @@ export default function Home() {
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-xs font-mono text-emerald-400 backdrop-blur-md">
             <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-            <span>AST-Guided Distributed Review Engine</span>
+            <span>AI-Powered Automated PR Reviews</span>
           </div>
 
           <h1 className="text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tight max-w-5xl bg-gradient-to-b from-white via-zinc-100 to-zinc-400 bg-clip-text text-transparent leading-[1.06]">
-            Automated Code Reviews. <br />
-            <span className="text-emerald-400 block mt-2 sm:inline sm:mt-0">Catch what linters miss.</span>
+            Catch logic & security bugs. <br />
+            <span className="text-emerald-400 block mt-2 sm:inline sm:mt-0">Before they hit production.</span>
           </h1>
 
           <p className="max-w-2xl text-base sm:text-lg text-zinc-400 leading-relaxed font-normal">
-            Drop any GitHub pull request link. Our engine moves beyond surface formatting rules 
-            to map deep AST logical syntax, pinning security vulnerabilities directly to your modified line anchors.
+            Paste any GitHub pull request link or connect your repository. Our engine parses the git diff, evaluates changes with LLMs, and maps actionable security and logic feedback directly to your modified lines.
           </p>
 
           <form
@@ -374,7 +373,7 @@ export default function Home() {
                   <Lock className="w-5 h-5" />
                 </div>
                 <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-500 bg-white/5 px-2.5 py-0.5 rounded-full border border-white/5">
-                  NIST SP 800-38D
+                  AES-256 Encrypted Tokens
                 </span>
               </div>
               <h3 className="font-semibold text-lg text-zinc-100">AES-256-GCM Vault</h3>
@@ -393,29 +392,29 @@ export default function Home() {
           transition={{ duration: 0.6 }}
           className="relative overflow-hidden bg-zinc-950/80 border border-white/10 rounded-3xl p-8 sm:p-12 backdrop-blur-xl shadow-2xl"
         >
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-white/10">
+         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-white/10">
             <div className="space-y-1.5 pt-4 md:pt-0">
-              <div className="text-4xl sm:text-5xl font-black text-emerald-400 font-mono tracking-tight">&lt; 3s</div>
-              <div className="text-xs sm:text-sm font-medium text-zinc-200">Review Latency</div>
-              <div className="text-[11px] text-zinc-500 font-mono">Per diff chunk</div>
+              <div className="text-4xl sm:text-5xl font-black text-emerald-400 font-mono tracking-tight">Diff</div>
+              <div className="text-xs sm:text-sm font-medium text-zinc-200">Aware Chunking</div>
+              <div className="text-[11px] text-zinc-500 font-mono">Token-window optimized</div>
             </div>
 
             <div className="space-y-1.5 pt-4 md:pt-0">
-              <div className="text-4xl sm:text-5xl font-black text-white font-mono tracking-tight">100%</div>
-              <div className="text-xs sm:text-sm font-medium text-zinc-200">Line Anchor Accuracy</div>
-              <div className="text-[11px] text-zinc-500 font-mono">Deterministic map</div>
+              <div className="text-4xl sm:text-5xl font-black text-white font-mono tracking-tight">Hunk</div>
+              <div className="text-xs sm:text-sm font-medium text-zinc-200">Line Validation</div>
+              <div className="text-[11px] text-zinc-500 font-mono">Prunes invalid anchors</div>
             </div>
 
             <div className="space-y-1.5 pt-4 md:pt-0">
-              <div className="text-4xl sm:text-5xl font-black text-emerald-400 font-mono tracking-tight">0</div>
-              <div className="text-xs sm:text-sm font-medium text-zinc-200">Plaintext Secrets</div>
-              <div className="text-[11px] text-zinc-500 font-mono">Zero-leak storage</div>
+              <div className="text-4xl sm:text-5xl font-black text-emerald-400 font-mono tracking-tight">AES</div>
+              <div className="text-xs sm:text-sm font-medium text-zinc-200">256-Bit Encrypted</div>
+              <div className="text-[11px] text-zinc-500 font-mono">Tokens secured at rest</div>
             </div>
 
             <div className="space-y-1.5 pt-4 md:pt-0">
-              <div className="text-4xl sm:text-5xl font-black text-white font-mono tracking-tight">10+</div>
-              <div className="text-xs sm:text-sm font-medium text-zinc-200">Languages Supported</div>
-              <div className="text-[11px] text-zinc-500 font-mono">TS, JS, Python, Go, Rust</div>
+              <div className="text-4xl sm:text-5xl font-black text-white font-mono tracking-tight">Git</div>
+              <div className="text-xs sm:text-sm font-medium text-zinc-200">Multi-File Diffs</div>
+              <div className="text-[11px] text-zinc-500 font-mono">Any text-based format</div>
             </div>
           </div>
         </motion.section>

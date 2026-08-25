@@ -1,6 +1,6 @@
 # 🛡️ AI Code Reviewer
 
-An enterprise-grade, distributed automated code review platform that inspects GitHub pull requests, performs line-accurate Abstract Syntax Tree (AST) validation, flags security vulnerabilities (OWASP/CWE), and suggests production-ready code fixes without synthetic line hallucinations.
+An enterprise-grade, distributed automated code review platform that inspects GitHub pull requests, performs line-accurate diff validation, flags security vulnerabilities (OWASP/CWE), and suggests production-ready code fixes without synthetic line hallucinations.
 
 ---
 
@@ -23,7 +23,7 @@ An enterprise-grade, distributed automated code review platform that inspects Gi
 │   │   ├── (auth)/               # Login & signup flows
 │   │   ├── (dashboard)/          # Authenticated review workspace
 │   │   └── page.tsx              # Interactive 3D landing page
-│   ├── components/               # 3D WebGL Canvas, AST Scanner HUD, UI primitives
+│   ├── components/               # 3D WebGL Canvas, Review Scanner HUD, UI primitives
 │   ├── lib/services/             # Axios API clients & session handlers
 │   └── stores/                   # Persisted Zustand authentication store
 │
@@ -31,7 +31,8 @@ An enterprise-grade, distributed automated code review platform that inspects Gi
     ├── src/auth/                 # GitHub OAuth, JWT access guards & AES-256-GCM vault
     ├── src/github/               # Octokit diff fetching & payload chunker
     ├── src/reviews/              # BullMQ queue processors, controllers & Redis cache
-    └── src/reviews/services/     # Gemini API AST review engine & diff parser
+    └── src/reviews/services/     # Gemini API review engine & diff parser
+
 ```
 
 ---
@@ -55,6 +56,7 @@ An enterprise-grade, distributed automated code review platform that inspects Gi
 ```bash
 cd backend
 npm install
+
 ```
 
 2. Create your `.env` configuration file:
@@ -70,6 +72,7 @@ GEMINI_API_KEY=your_gemini_api_key
 GITHUB_CLIENT_ID=your_github_oauth_client_id
 GITHUB_CLIENT_SECRET=your_github_oauth_client_secret
 FRONTEND_URL=http://localhost:3001
+
 ```
 
 > ⚠️ **Critical Crypto Requirement:** The `ENCRYPTION_KEY` parameter requires exactly a **256-bit key** for secure AES-256-GCM processing. In hex representation, your variable value must be a string containing exactly **64 hex characters** (32 raw bytes). If a simple 32-character plaintext string is used, Node's `crypto` module will throw an invalid key length exception and crash your worker pipelines.
@@ -79,18 +82,24 @@ FRONTEND_URL=http://localhost:3001
 To quickly generate pristine environment variables locally on your development system, run these node execution statements inside your terminal:
 
 - **Generate standard `JWT_SECRET` string:**
-  ```bash
-  node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
-  ```
+
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+
+```
+
 - **Generate compliant `ENCRYPTION_KEY` string (64 Hex chars/32 bytes):**
-  ```bash
-  node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
-  ```
+
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+
+```
 
 3. Start the NestJS backend in development mode:
 
 ```bash
 npm run start:dev
+
 ```
 
 ---
@@ -102,18 +111,23 @@ npm run start:dev
 ```bash
 cd frontend
 npm install
+
 ```
 
 2. Create your `.env.local` configuration file:
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:3000
+NEXT_PUBLIC_GITHUB_CLIENT_ID=CLIENT_ID
+NEXT_PUBLIC_GITHUB_CALLBACK_URL=http://localhost:3000/github/oauth/callback
+
 ```
 
 3. Launch the Next.js development server on port 3001:
 
 ```bash
 npm run dev -- -p 3001
+
 ```
 
 4. Open [http://localhost:3001](http://localhost:3001) in your browser.
@@ -128,6 +142,7 @@ If you have **Docker** configured on your local workstation workspace, you can s
 # Initialize MongoDB and Redis service networks in background detached mode
 docker run -d --name reviewer-mongo -p 27017:27017 mongo:latest
 docker run -d --name reviewer-redis -p 6379:6379 redis:alpine
+
 ```
 
 ---
@@ -145,3 +160,7 @@ docker run -d --name reviewer-redis -p 6379:6379 redis:alpine
 
 - **Frontend:** Next.js 15 (App Router), React 19, Tailwind CSS, Three.js, React Three Fiber, Framer Motion, Zustand (Persist Middleware), Lucide React.
 - **Backend:** NestJS, TypeScript, BullMQ, Redis, MongoDB / Mongoose, Octokit (GitHub API), Google GenAI SDK.
+
+```
+
+```

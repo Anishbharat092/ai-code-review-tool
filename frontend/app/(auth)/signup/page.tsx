@@ -79,7 +79,7 @@ export default function SignupPage() {
         <div className="max-w-md space-y-6">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-xs font-medium text-indigo-300 backdrop-blur-md">
             <Cpu className="w-3.5 h-3.5 text-indigo-400" />
-            <span>Developer Sandbox Environment</span>
+            <span>Developer Workspace</span>
           </div>
 
           <h2 className="text-4xl font-extrabold tracking-tight leading-tight bg-gradient-to-b from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
@@ -89,21 +89,21 @@ export default function SignupPage() {
           <div className="space-y-3 pt-2 text-sm text-zinc-300">
             <div className="flex items-center gap-2.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-              <span>Instant inline review suggestions</span>
+              <span>Line-anchored review suggestions</span>
             </div>
             <div className="flex items-center gap-2.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-              <span>Contextual AST diff chunking</span>
+              <span>Token-window validated diff chunking</span>
             </div>
             <div className="flex items-center gap-2.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-              <span>AES-256 GCM encrypted token storage</span>
+              <span>AES-256 encrypted GitHub OAuth tokens</span>
             </div>
           </div>
         </div>
 
         <div className="font-mono text-xs text-zinc-500">
-          SECURE_AUTH // RSA_4096_VERIFIED
+          SYSTEM://STABLE // AES_256_ENCRYPTED
         </div>
       </div>
 
